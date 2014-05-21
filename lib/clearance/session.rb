@@ -24,8 +24,12 @@ module Clearance
       @current_user = user
       status = run_sign_in_stack
 
+      Rails.logger.info("CLEARANCE: After stack run status success? is #{status.success?} #{status.inspect}")
+
       if status.success?
+        Rails.logger.info("CLEARANCE: User remember token is #{user.remember_token}")
         cookies[REMEMBER_TOKEN_COOKIE] = user && user.remember_token
+        Rails.logger.info("CLEARANCE: Cookie set to #{cookies[REMEMBER_TOKEN_COOKIE]}")
       else
         @current_user = nil
       end
